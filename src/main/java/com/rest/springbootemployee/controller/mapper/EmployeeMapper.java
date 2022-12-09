@@ -25,12 +25,6 @@ public class EmployeeMapper {
         return employeeResponse;
     }
 
-    public List<Employee> toEntity (List<EmployeeRequest> employeesRequest){
-        return employeesRequest.stream()
-                .map(employeeRequest -> this.toEntity(employeeRequest))
-                .collect(Collectors.toList());
-    }
-
     public List<EmployeeResponse> toResponse (List<Employee> employees){
         return employees.stream()
                 .map(employee -> this.toResponse(employee))

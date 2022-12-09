@@ -108,7 +108,7 @@ public class EmployeeControllerTest {
         //given
         String employeeId = new ObjectId().toString();
         Employee employee = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
-        Employee updateEmployee = new Employee(employeeId, "Jim", 20, "Male", 55000);
+        EmployeeRequest updateEmployee = new EmployeeRequest("Jim", 20, "Male", 55000);
 
         String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
 
@@ -119,7 +119,6 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"));
 
         // then
