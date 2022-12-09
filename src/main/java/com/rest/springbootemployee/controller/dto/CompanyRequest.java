@@ -1,26 +1,19 @@
-package com.rest.springbootemployee.entity;
+package com.rest.springbootemployee.controller.dto;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.rest.springbootemployee.entity.Employee;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
 
-@Document
-public class Company {
-    @MongoId(FieldType.OBJECT_ID)
-    private String id;
+public class CompanyRequest {
+
     private String name;
     private List<Employee> employees;
 
-    public Company(String id, String name, List<Employee> employees) {
-        this.id = id;
+    public CompanyRequest(String name, List<Employee> employees) {
         this.name = name;
         this.employees = employees;
-    }
-
-    public Company() {
-
     }
 
     public String getName() {
@@ -37,14 +30,5 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
