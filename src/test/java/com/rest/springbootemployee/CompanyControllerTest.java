@@ -265,4 +265,14 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
     }
 
+    @Test
+    public void should_return_exception_when_perform_delete_by_id_given_a_id_notValid() throws Exception {
+        //given
+        String notValidId = "01";
+        //when & then
+        client.perform(MockMvcRequestBuilders.delete("/companies/{id}", notValidId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+    }
+
 }
