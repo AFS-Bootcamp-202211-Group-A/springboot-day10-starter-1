@@ -242,4 +242,5 @@ public class CompanyControllerTest {
                 .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
 }

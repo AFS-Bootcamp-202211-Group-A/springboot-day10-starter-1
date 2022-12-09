@@ -2,6 +2,7 @@ package com.rest.springbootemployee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.exception.InvalidIdException;
 import com.rest.springbootemployee.repository.EmployeeMongoRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
@@ -192,6 +194,19 @@ public class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void should_throw_invalid_id_exception_when_get_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid = "123";
+
+        //when
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", invalid))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+        //then
+
     }
 
 }
