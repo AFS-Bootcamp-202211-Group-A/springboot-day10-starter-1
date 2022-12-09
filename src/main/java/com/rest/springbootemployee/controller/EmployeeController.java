@@ -32,8 +32,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable String id) {
-        return employeeService.findById(id);
+    public EmployeeResponse getById(@PathVariable String id) {
+        Employee employee = employeeService.findById(id);
+        return employeeMapper.fromEntity(employee);
     }
 
     @GetMapping(params = {"gender"})
