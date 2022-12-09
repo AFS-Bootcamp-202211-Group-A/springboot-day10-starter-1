@@ -202,4 +202,18 @@ public class EmployeeControllerTest {
         client.perform(MockMvcRequestBuilders.get("/employees/{id}", "1"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+    @Test
+    void should_return_400_when_perform_put_by_id_given_invalid_id() throws Exception {
+        // given
+        String id = "1";
+        Employee updateEmployee = new Employee(id, "Jim", 20, "Male", 55000);
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+
+        // when
+        // then
+            client.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                            .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
