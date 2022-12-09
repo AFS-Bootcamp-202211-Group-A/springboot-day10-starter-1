@@ -207,4 +207,23 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
     }
 
+    @Test
+    void should_return_exception_when_perform_put_given_employeeId_notValid() throws Exception {
+        //given
+        String notValidId = "01";
+        String employeeId = new ObjectId().toString();
+        Employee employee = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
+        Employee updateEmployee = new Employee(employeeId, "Jim", 20, "Male", 55000);
+
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+        //when
+        //        return id;
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", notValidId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+
+    }
+
 }
