@@ -236,4 +236,13 @@ public class CompanyControllerTest {
                 .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @Test
+    void should_return_400_when_perform_get_by_id_given_invalid_id() throws Exception {
+        // given
+        // when
+        // then
+        client.perform(MockMvcRequestBuilders.get("/companies/{id}", "1"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
