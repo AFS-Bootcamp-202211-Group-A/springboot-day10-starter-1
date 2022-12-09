@@ -49,7 +49,8 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public Company update(@PathVariable String id, @RequestBody Company company) {
+    public Company update(@PathVariable String id, @RequestBody CompanyRequest companyRequest) {
+        Company company = companyMapper.toEntity(companyRequest);
         return companyService.update(id, company);
     }
 
