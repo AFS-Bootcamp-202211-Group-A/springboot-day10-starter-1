@@ -226,4 +226,16 @@ public class EmployeeControllerTest {
 
     }
 
+    @Test
+    void should_return_exception_when_perform_delete_given_employeeId_notValid() throws Exception {
+        //given
+        String notValidId = "01";
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}" , notValidId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+
+        //then
+    }
+
 }
