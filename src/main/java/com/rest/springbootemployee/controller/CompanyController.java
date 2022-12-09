@@ -61,8 +61,8 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public CompanyResponse update(@PathVariable String id, @RequestBody Company company) {
-        return companyMapper.toResponse(companyService.update(id, company));
+    public CompanyResponse update(@PathVariable String id, @RequestBody CompanyRequest company) {
+        return companyMapper.toResponse(companyService.update(id, companyMapper.toEntity(company)));
     }
 
     @DeleteMapping("/{id}")
