@@ -193,5 +193,14 @@ public class EmployeeControllerTest {
                         .content(updateEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+    @Test
+    void should_return_400_when_get_given_invalid_id() throws Exception{
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee susan = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
 
+        //when & then
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", 123))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
