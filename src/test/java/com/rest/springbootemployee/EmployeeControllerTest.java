@@ -218,4 +218,14 @@ public class EmployeeControllerTest {
                         .content(updateEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+    @Test
+    void should_return_400_when_delete_given_invalid_id() throws Exception{
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee createdEmployee = employeeMongoRepository.save(new Employee(employeeId, "Jim", 20, "Male", 55000));
+
+        //when & then
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}" , 123))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
