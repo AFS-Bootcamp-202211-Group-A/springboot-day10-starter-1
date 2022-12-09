@@ -96,7 +96,7 @@ public class CompanyControllerTest {
         //given
         String newCompanyJson = new ObjectMapper()
                 .writeValueAsString(new Company(new ObjectId().toString(), "PPP", new ArrayList<Employee>() {{
-                                    add(new Employee(String.valueOf(1), "lili", 20, "Female", 8000));
+                                    add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 8000));
                                 }}));
 
         //when & then
