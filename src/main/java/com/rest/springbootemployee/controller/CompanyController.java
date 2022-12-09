@@ -1,6 +1,7 @@
 package com.rest.springbootemployee.controller;
 
 import com.rest.springbootemployee.controller.dto.CompanyRequest;
+import com.rest.springbootemployee.controller.dto.CompanyResponse;
 import com.rest.springbootemployee.controller.mapper.CompanyMapper;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.service.CompanyService;
@@ -22,8 +23,9 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<Company> getAll() {
-        return companyService.findAll();
+    public List<CompanyResponse> getAll() {
+        List<Company> companies = companyService.findAll();
+        return companyMapper.toResponse(companies);
     }
 
     @GetMapping("/{id}")
