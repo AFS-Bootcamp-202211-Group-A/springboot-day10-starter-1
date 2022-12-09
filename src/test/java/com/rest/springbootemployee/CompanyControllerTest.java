@@ -77,10 +77,7 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Spring"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].name", containsInAnyOrder("lili", "coco")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].age", containsInAnyOrder(20, 10)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].gender", containsInAnyOrder("Female", "Female")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].salary", containsInAnyOrder(2000, 8000)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employeesCount").value(2));
     }
 
     @Test
