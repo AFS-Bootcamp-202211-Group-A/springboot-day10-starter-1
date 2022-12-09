@@ -2,7 +2,9 @@ package com.rest.springbootemployee.controller;
 
 import com.rest.springbootemployee.controller.dto.CompanyRequest;
 import com.rest.springbootemployee.controller.dto.CompanyResponse;
+import com.rest.springbootemployee.controller.dto.EmployeeResponse;
 import com.rest.springbootemployee.controller.mapper.CompanyMapper;
+import com.rest.springbootemployee.controller.mapper.EmployeeMapper;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.service.CompanyService;
 import com.rest.springbootemployee.entity.Employee;
@@ -18,10 +20,12 @@ import java.util.stream.Collectors;
 public class CompanyController {
     private CompanyService companyService;
     private CompanyMapper companyMapper;
+    private EmployeeMapper employeeMapper;
 
-    public CompanyController(CompanyService companyService, CompanyMapper companyMapper) {
+    public CompanyController(CompanyService companyService, CompanyMapper companyMapper, EmployeeMapper employeeMapper) {
         this.companyService = companyService;
         this.companyMapper = companyMapper;
+        this.employeeMapper = employeeMapper;
     }
 
     @GetMapping
@@ -39,8 +43,11 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}/employees")
-    public List<Employee> getEmployees(@PathVariable String id) {
-        return companyService.getEmployees(id);
+    public List<EmployeeResponse> getEmployees(@PathVariable String id) {
+        return companyService.getEmployees(id)
+                .stream()
+                .map(employee -> employeeMapper.toResponse(employee))
+                .collect(Collectors.toList());
     }
 
     @GetMapping(params = {"page", "pageSize"})
