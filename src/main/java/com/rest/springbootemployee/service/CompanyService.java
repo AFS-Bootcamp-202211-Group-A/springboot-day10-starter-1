@@ -1,5 +1,6 @@
 package com.rest.springbootemployee.service;
 
+import com.rest.springbootemployee.controller.dto.CompanyRequest;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.exception.NoCompanyFoundException;
 import com.rest.springbootemployee.repository.CompanyMongoRepository;
