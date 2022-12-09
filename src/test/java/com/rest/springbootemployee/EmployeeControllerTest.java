@@ -206,7 +206,22 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
         //then
-
     }
+
+    @Test
+    void should_throw_invalid_id_exception_when_put_given_invalid_id() throws Exception {
+        // given
+        String id = "123";
+        Employee updateEmployee = new Employee(id, "Jim", 20, "Male", 55000);
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+
+        // when
+        // then
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
 
 }
