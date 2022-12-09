@@ -13,6 +13,10 @@ public class Company {
     private String name;
     private List<Employee> employees;
 
+    public Company() {
+
+    }
+
     public Company(String id, String name, List<Employee> employees) {
         this.id = id;
         this.name = name;
