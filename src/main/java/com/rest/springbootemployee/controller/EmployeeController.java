@@ -40,7 +40,7 @@ public class EmployeeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeResponse add(@RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = employeeMapper.employeeToEntity(employeeRequest);
+        Employee employee = employeeMapper.toEntity(employeeRequest);
         Employee savedEmployee = employeeService.create(employee);
         return employeeMapper.toResponse(savedEmployee);
     }
