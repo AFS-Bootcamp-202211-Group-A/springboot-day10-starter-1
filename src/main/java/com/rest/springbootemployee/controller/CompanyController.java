@@ -24,14 +24,14 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<Company> getAll() {
-        return companyService.findAll();
+    public List<CompanyResponse> getAll() {
+        return companyMapper.toResponseList(companyService.findAll());
     }
 
     //to do
     @GetMapping("/{id}")
-    public Company getById(@PathVariable String id) {
-        return companyService.findById(id);
+    public CompanyResponse getById(@PathVariable String id) {
+        return companyMapper.toResponse(companyService.findById(id));
     }
 
 
@@ -54,8 +54,8 @@ public class CompanyController {
 
     //to do
     @PutMapping("/{id}")
-    public Company update(@PathVariable String id, @RequestBody Company company) {
-        return companyService.update(id, company);
+    public CompanyResponse update(@PathVariable String id, @RequestBody CompanyRequest companyRequest) {
+        return companyMapper.toResponse(companyService.update(id, companyMapper.toEntity(companyRequest)));
     }
 
     @DeleteMapping("/{id}")
