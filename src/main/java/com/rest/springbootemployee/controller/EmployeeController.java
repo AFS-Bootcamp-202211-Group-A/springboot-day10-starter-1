@@ -38,8 +38,11 @@ public class EmployeeController {
     }
 
     @GetMapping(params = {"gender"})
-    public List<Employee> getByGender(@RequestParam String gender) {
-        return employeeService.findByGender(gender);
+    public List<EmployeeResponse> getByGender(@RequestParam String gender) {
+        List<Employee> employees = employeeService.findByGender(gender);
+        return employees.stream()
+                .map(employee -> employeeMapper.fromEntity(employee))
+                .collect(Collectors.toList());
     }
 
     @PostMapping
