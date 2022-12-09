@@ -7,6 +7,9 @@ import com.rest.springbootemployee.entity.Employee;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class EmployeeMapper {
     public Employee toEntity(EmployeeRequest employeeRequest){
@@ -20,5 +23,17 @@ public class EmployeeMapper {
         BeanUtils.copyProperties(employee, employeeResponse);
 
         return employeeResponse;
+    }
+
+    public List<Employee> toEntity (List<EmployeeRequest> employeesRequest){
+        return employeesRequest.stream()
+                .map(employeeRequest -> this.toEntity(employeeRequest))
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeResponse> toResponse (List<Employee> employees){
+        return employees.stream()
+                .map(employee -> this.toResponse(employee))
+                .collect(Collectors.toList());
     }
 }
