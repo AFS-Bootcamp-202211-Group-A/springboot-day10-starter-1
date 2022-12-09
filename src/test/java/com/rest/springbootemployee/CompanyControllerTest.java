@@ -245,4 +245,19 @@ public class CompanyControllerTest {
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", "1"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+
+    @Test
+    void should_return_400_when_perform_put_by_id_given_invalid_id() throws Exception {
+        // given
+        String id = "1";
+        Company company = new Company(id, "Goola", null);
+        String newCompanyJson = new ObjectMapper().writeValueAsString(company);
+
+        // when
+        // then
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}", company.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompanyJson))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
