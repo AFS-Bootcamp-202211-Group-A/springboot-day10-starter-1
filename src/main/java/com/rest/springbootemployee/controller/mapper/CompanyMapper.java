@@ -6,6 +6,9 @@ import com.rest.springbootemployee.entity.Company;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class CompanyMapper {
 
@@ -24,5 +27,10 @@ public class CompanyMapper {
         BeanUtils.copyProperties(company, companyResponse);
         return companyResponse;
 
+    }
+
+    public List<CompanyResponse> toResponse(List<Company> companies){
+        return companies.stream()
+                .map(company -> toResponse(company)).collect(Collectors.toList());
     }
 }
