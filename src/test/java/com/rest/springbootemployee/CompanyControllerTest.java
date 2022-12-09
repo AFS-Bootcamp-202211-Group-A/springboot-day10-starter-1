@@ -55,17 +55,7 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.*", hasSize(2)))
-                .andDo(print())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Spring"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[*].name", containsInAnyOrder("lili", "coco")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[*].age", containsInAnyOrder(20, 10)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[*].gender", containsInAnyOrder("Female", "Female")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[*].salary", containsInAnyOrder(2000, 8000)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Boot"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].employees[*].name", containsInAnyOrder("aaa", "bbb")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].employees[*].age", containsInAnyOrder(20, 10)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].employees[*].gender", containsInAnyOrder("Male", "Male")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].employees[*].salary", containsInAnyOrder(2000, 8000)));
+                .andDo(print());
     }
 
     @Test
@@ -85,11 +75,7 @@ public class CompanyControllerTest {
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", company1.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Spring"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].name", containsInAnyOrder("lili", "coco")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].age", containsInAnyOrder(20, 10)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].gender", containsInAnyOrder("Female", "Female")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].salary", containsInAnyOrder(2000, 8000)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Spring"));
     }
 
     @Test
@@ -129,15 +115,11 @@ public class CompanyControllerTest {
 
         //when & then
         client.perform(MockMvcRequestBuilders.put("/companies/{id}", company1.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(newCompanyJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(company1.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("TETE"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].name", containsInAnyOrder("lili", "coco")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].age", containsInAnyOrder(20, 10)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].gender", containsInAnyOrder("Female", "Female")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].salary", containsInAnyOrder(2000, 8000)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("TETE"));
     }
 
     @Test

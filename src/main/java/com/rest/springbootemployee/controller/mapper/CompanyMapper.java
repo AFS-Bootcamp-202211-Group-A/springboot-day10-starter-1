@@ -37,5 +37,4 @@ public class CompanyMapper {
                 .collect(Collectors.toList());
     }
 
-
 }
