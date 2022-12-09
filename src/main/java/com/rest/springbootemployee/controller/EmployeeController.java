@@ -25,11 +25,7 @@ public class EmployeeController {
 
     @GetMapping
     public List<EmployeeResponse> getAll() {
-        return employeeService
-                .findAll()
-                .stream()
-                .map(employee -> employeeMapper.toResponse(employee))
-                .collect(Collectors.toList());
+        return employeeMapper.toResponse(employeeService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -39,11 +35,8 @@ public class EmployeeController {
 
     @GetMapping(params = {"gender"})
     public List<EmployeeResponse> getByGender(@RequestParam String gender) {
-        return employeeService
-                .findByGender(gender)
-                .stream()
-                .map(employee -> employeeMapper.toResponse(employee))
-                .collect(Collectors.toList());
+        return employeeMapper.toResponse(employeeService.findByGender(gender));
+
     }
 
     @PostMapping
@@ -67,10 +60,7 @@ public class EmployeeController {
 
     @GetMapping(params = {"page", "pageSize"})
     public List<EmployeeResponse> getByPage(int page, int pageSize) {
-        return employeeService
-                .findByPage(page, pageSize)
-                .stream().map(employee -> employeeMapper.toResponse(employee))
-                .collect(Collectors.toList());
+        return employeeMapper.toResponse(employeeService.findByPage(page, pageSize));
     }
 
 }

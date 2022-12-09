@@ -30,11 +30,7 @@ public class CompanyController {
 
     @GetMapping
     public List<CompanyResponse> getAll() {
-        return companyService
-                .findAll()
-                .stream()
-                .map(company -> companyMapper.toResponse(company))
-                .collect(Collectors.toList());
+        return companyMapper.toResponse(companyService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -44,26 +40,18 @@ public class CompanyController {
 
     @GetMapping("/{id}/employees")
     public List<EmployeeResponse> getEmployees(@PathVariable String id) {
-        return companyService.getEmployees(id)
-                .stream()
-                .map(employee -> employeeMapper.toResponse(employee))
-                .collect(Collectors.toList());
+        return employeeMapper.toResponse(companyService.getEmployees(id));
     }
 
     @GetMapping(params = {"page", "pageSize"})
     public List<CompanyResponse> getByPage(Integer page, Integer pageSize) {
-        return companyService
-                .findByPage(page, pageSize)
-                .stream()
-                .map(company -> companyMapper.toResponse(company))
-                .collect(Collectors.toList());
+        return companyMapper.toResponse(companyService.findByPage(page, pageSize));
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public CompanyResponse create(@RequestBody CompanyRequest companyRequest) {
         Company newCompany = companyMapper.toEntity(companyRequest);
-        newCompany.setEmployees(new ArrayList<>());
         return companyMapper.toResponse(companyService.create(newCompany));
     }
 
