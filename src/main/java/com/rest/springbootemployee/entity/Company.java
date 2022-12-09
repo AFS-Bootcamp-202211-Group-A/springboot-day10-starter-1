@@ -19,6 +19,10 @@ public class Company {
         this.employees = employees;
     }
 
+    public Company() {
+
+    }
+
     public String getName() {
         return name;
     }
@@ -29,6 +33,12 @@ public class Company {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+    public Integer getEmployeeCount(){
+        if (employees == null) {
+            return 0;
+        }
+        return  employees.size();
     }
 
     public void setEmployees(List<Employee> employees) {
