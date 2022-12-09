@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
@@ -259,5 +259,15 @@ public class CompanyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+    @Test
+    void should_return_400_when_perform_delete_given_invalid_id() throws Exception {
+        //given
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/companies/{id}" , "1"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+        //then
+        assertThat(companyMongoRepository.findAll(), empty());
     }
 }
