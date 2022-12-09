@@ -234,4 +234,35 @@ public class CompanyControllerTest {
                 .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @Test
+    void should_throw_id_invalid_exception_when_get_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid_Id = "999";
+        //when
+        client.perform(MockMvcRequestBuilders.get("/companies/{id}", invalid_Id))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        //then
+    }
+
+    @Test
+    void should_throw_id_invalid_exception_when_put_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid_Id = "999";
+        //when
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}", invalid_Id))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        //then
+    }
+
+    @Test
+    void should_throw_id_invalid_exception_when_delete_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid_Id = "999";
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/companies/{id}", invalid_Id))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        //then
+    }
+
 }
