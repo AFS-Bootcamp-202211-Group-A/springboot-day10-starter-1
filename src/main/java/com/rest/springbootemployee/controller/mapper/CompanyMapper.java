@@ -14,8 +14,7 @@ public class CompanyMapper {
 
     public Company toEntity(CompanyRequest companyRequest) {
         Company company = new Company();
-        System.out.println("Company Name: "+company.getName());
-//        BeanUtils.copyProperties(companyRequest, company);
+        BeanUtils.copyProperties(companyRequest, company);
         return company;
 
     }
