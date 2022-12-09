@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -57,8 +58,11 @@ public class EmployeeController {
 
 
     @GetMapping(params = {"page", "pageSize"})
-    public List<Employee> getByPage(int page, int pageSize) {
-        return employeeService.findByPage(page, pageSize);
+    public List<EmployeeResponse> getByPage(int page, int pageSize) {
+        return employeeService
+                .findByPage(page, pageSize)
+                .stream().map(employee -> employeeMapper.toResponse(employee))
+                .collect(Collectors.toList());
     }
 
 }
