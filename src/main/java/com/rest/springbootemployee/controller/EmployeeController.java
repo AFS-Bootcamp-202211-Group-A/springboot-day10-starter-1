@@ -65,8 +65,11 @@ public class EmployeeController {
 
 
     @GetMapping(params = {"page", "pageSize"})
-    public List<Employee> getByPage(int page, int pageSize) {
-        return employeeService.findByPage(page, pageSize);
+    public List<EmployeeResponse> getByPage(int page, int pageSize) {
+        List<Employee> employees = employeeService.findByPage(page, pageSize);
+        return employees.stream()
+                .map(employee -> employeeMapper.fromEntity(employee))
+                .collect(Collectors.toList());
     }
 
 }
