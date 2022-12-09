@@ -1,6 +1,7 @@
 package com.rest.springbootemployee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rest.springbootemployee.controller.dto.EmployeeRequest;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.EmployeeMongoRepository;
 import org.bson.types.ObjectId;
@@ -136,8 +137,8 @@ public class EmployeeControllerTest {
     void should_create_new_employee_when_perform_post_given_new_employee() throws Exception {
         //given
         String employeeId = new ObjectId().toString();
-        Employee newEmployee = new Employee(employeeId, "Jim", 20, "Male", 55000);
-        String newEmployeeJson = new ObjectMapper().writeValueAsString(newEmployee);
+        EmployeeRequest employeeRequest = new EmployeeRequest("Jim", 20, "Male", 55000);
+        String newEmployeeJson = new ObjectMapper().writeValueAsString(employeeRequest);
 
         //when
         client.perform(MockMvcRequestBuilders.post("/employees")

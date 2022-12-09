@@ -28,10 +28,12 @@ public class CompanyController {
         return companyService.findAll();
     }
 
+    //to do
     @GetMapping("/{id}")
     public Company getById(@PathVariable String id) {
         return companyService.findById(id);
     }
+
 
     @GetMapping("/{id}/employees")
     public List<Employee> getEmployees(@PathVariable String id) {
@@ -43,12 +45,14 @@ public class CompanyController {
         return companyService.findByPage(page, pageSize);
     }
 
+    //to do
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CompanyResponse create(@RequestBody CompanyRequest companyRequest) {
         return companyMapper.toResponse(companyService.create(companyMapper.toEntity(companyRequest)));
     }
 
+    //to do
     @PutMapping("/{id}")
     public Company update(@PathVariable String id, @RequestBody Company company) {
         return companyService.update(id, company);

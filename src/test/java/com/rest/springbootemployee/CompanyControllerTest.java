@@ -96,9 +96,7 @@ public class CompanyControllerTest {
     public void should_create_a_company_when_perform_post_given_a_company() throws Exception {
         //given
         String newCompanyJson = new ObjectMapper()
-                .writeValueAsString(new Company(new ObjectId().toString(), "PPP", new ArrayList<Employee>() {{
-                    add(new Employee(String.valueOf(1), "lili", 20, "Female", 8000));
-                }}));
+                .writeValueAsString(new CompanyRequest("PPP", new ArrayList<>()));
 
         System.out.println("Print Something"+newCompanyJson);
 
@@ -109,7 +107,7 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("PPP"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employeeCount").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employeeCount").value(0))
                 .andDo(print());
 
     }
