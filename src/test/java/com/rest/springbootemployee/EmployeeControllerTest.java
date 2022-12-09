@@ -196,4 +196,15 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @Test
+    void should_return_exception_by_id_when_perform_get_by_id_notValid_given_employees() throws Exception {
+        //given
+        String notValidId = "01";
+        //when & then
+        //        return id;
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", notValidId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+    }
+
 }
