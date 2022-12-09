@@ -23,8 +23,8 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAll() {
-        return employeeService.findAll();
+    public List<EmployeeResponse> getAll() {
+        return employeeMapper.toResponse(employeeService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -33,8 +33,9 @@ public class EmployeeController {
     }
 
     @GetMapping(params = {"gender"})
-    public List<Employee> getByGender(@RequestParam String gender) {
-        return employeeService.findByGender(gender);
+    public List<EmployeeResponse>  getByGender(@RequestParam String gender) {
+
+        return employeeMapper.toResponse(employeeService.findByGender(gender));
     }
 
     @PostMapping
