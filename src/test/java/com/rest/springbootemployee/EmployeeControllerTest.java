@@ -223,5 +223,20 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
+    @Test
+    void should_throw_invalid_id_exception_when_perform_delete_given_invalid_id() throws Exception {
+        //given
+        String employeeId = "123";
+
+
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}" , employeeId))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+        //then
+
+    }
+
+
 
 }
