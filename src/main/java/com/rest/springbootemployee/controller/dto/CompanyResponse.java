@@ -7,6 +7,22 @@ import java.util.List;
 
 @Document
 public class CompanyResponse {
+
+
+    private String id;
+    private String name;
+    private Integer employeesCount;
+
+    public CompanyResponse(String id, String name, Integer employeesCount) {
+        this.id = id;
+        this.name = name;
+        this.employeesCount = employeesCount;
+    }
+
+    public CompanyResponse() {
+
+    }
+
     public String getId() {
         return id;
     }
@@ -14,21 +30,6 @@ public class CompanyResponse {
     public void setId(String id) {
         this.id = id;
     }
-
-    private String id;
-    private String name;
-    private List<Employee> employees;
-
-    public CompanyResponse(String id, String name, List<Employee> employees) {
-        this.id = id;
-        this.name = name;
-        this.employees = employees;
-    }
-
-    public CompanyResponse() {
-
-    }
-
     public String getName() {
         return name;
     }
@@ -37,12 +38,12 @@ public class CompanyResponse {
         this.name = name;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public Integer getEmployeesCount() {
+        return employeesCount;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setEmployeesCount(Integer employeesCount) {
+        this.employeesCount = employeesCount;
     }
 
 }
