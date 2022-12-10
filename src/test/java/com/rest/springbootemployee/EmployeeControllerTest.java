@@ -194,4 +194,52 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @Test
+    void should_return_404_when_perform_put_by_id_given_id_invalid() throws Exception {
+        // given
+        String id = new ObjectId().toString();
+        Employee updateEmployee = new Employee(id, "Jim", 20, "Male", 55000);
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+
+        // when
+        // then
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", "    ")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void should_return_404_when_perform_delete_given_id_invalid() throws Exception {
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee createdEmployee = employeeMongoRepository.save(new Employee(employeeId, "Jim", 20, "Male", 55000));
+
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}" , "    "))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+
+        //then
+    }
+
+    @Test
+    void should_return_404_when_perform_put_given_id_invalid() throws Exception {
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee employee = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
+        EmployeeRequest updateEmployee = new EmployeeRequest("Jim", 20, "Male", 55000);
+
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+
+        //when
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", "    ")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+
+        // then
+
+
+    }
+
 }

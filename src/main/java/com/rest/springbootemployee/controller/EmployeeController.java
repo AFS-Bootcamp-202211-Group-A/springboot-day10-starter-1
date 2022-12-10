@@ -4,6 +4,7 @@ import com.rest.springbootemployee.controller.dto.EmployeeRequest;
 import com.rest.springbootemployee.controller.dto.EmployeeResponse;
 import com.rest.springbootemployee.controller.mapper.EmployeeMapper;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.exception.IdInvalidException;
 import com.rest.springbootemployee.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,10 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public EmployeeResponse getById(@PathVariable String id) {
-        return employeeMapper.toResponse(employeeService.findById(id));
+        if(!id.isEmpty()){
+            return employeeMapper.toResponse(employeeService.findById(id));
+        }
+        throw new IdInvalidException();
     }
 
     @GetMapping(params = {"gender"})
@@ -44,13 +48,21 @@ public class EmployeeController {
     }
     @PutMapping("/{id}")
     public EmployeeResponse update(@PathVariable String id, @RequestBody EmployeeRequest employeeRequest) {
-        return employeeMapper.toResponse(employeeService.update(id, employeeMapper.toEntity(employeeRequest)));
+        if (!id.isEmpty()){
+            return employeeMapper.toResponse(employeeService.update(id, employeeMapper.toEntity(employeeRequest)));
+        }
+        throw new IdInvalidException();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
-        employeeService.delete(id);
+        if (!id.isEmpty() && id.trim().length() > 0){
+            employeeService.delete(id);
+        }
+        else {
+            throw new IdInvalidException();
+        }
     }
 
 

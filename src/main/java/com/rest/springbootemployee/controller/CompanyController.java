@@ -68,7 +68,6 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompany(@PathVariable String id) {
-        System.out.println("ID: "+ id);
         if (!id.isEmpty() && id.trim().length() > 0){
             companyService.delete(id);
         }
