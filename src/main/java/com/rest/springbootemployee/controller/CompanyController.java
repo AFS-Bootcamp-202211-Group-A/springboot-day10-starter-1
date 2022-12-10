@@ -4,6 +4,7 @@ import com.rest.springbootemployee.controller.dto.CompanyRequest;
 import com.rest.springbootemployee.controller.dto.CompanyResponse;
 import com.rest.springbootemployee.controller.mapper.CompanyMapper;
 import com.rest.springbootemployee.entity.Company;
+import com.rest.springbootemployee.exception.IdInvalidException;
 import com.rest.springbootemployee.service.CompanyService;
 import com.rest.springbootemployee.entity.Employee;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,10 @@ public class CompanyController {
     //to do
     @GetMapping("/{id}")
     public CompanyResponse getById(@PathVariable String id) {
-        return companyMapper.toResponse(companyService.findById(id));
+        if (!id.isEmpty()){
+            return companyMapper.toResponse(companyService.findById(id));
+        }
+        throw new IdInvalidException();
     }
 
 
@@ -55,12 +59,21 @@ public class CompanyController {
     //to do
     @PutMapping("/{id}")
     public CompanyResponse update(@PathVariable String id, @RequestBody CompanyRequest companyRequest) {
-        return companyMapper.toResponse(companyService.update(id, companyMapper.toEntity(companyRequest)));
+        if (!id.isEmpty()){
+            return companyMapper.toResponse(companyService.update(id, companyMapper.toEntity(companyRequest)));
+        }
+        throw new IdInvalidException();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompany(@PathVariable String id) {
-        companyService.delete(id);
+        System.out.println("ID: "+ id);
+        if (!id.isEmpty() && id.trim().length() > 0){
+            companyService.delete(id);
+        }
+        else {
+            throw new IdInvalidException();
+        }
     }
 }

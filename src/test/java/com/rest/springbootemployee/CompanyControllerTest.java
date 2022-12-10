@@ -239,4 +239,54 @@ public class CompanyControllerTest {
                 .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+    @Test
+    void should_return_404_when_perform_put_by_id_given_id_invalid() throws Exception {
+        // given
+        String id = new ObjectId().toString();
+        Company company = new Company(id, "Goola", null);
+        String newCompanyJson = new ObjectMapper().writeValueAsString(company);
+
+        // when
+        // then
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}", "      ")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newCompanyJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void should_return_404_when_perform_delete_by_id_given_id_invalid() throws Exception {
+        //given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(new ObjectId().toString(), "lili", 20, "Female", 2000));
+        employees.add(new Employee(new ObjectId().toString(), "coco", 10, "Female", 8000));
+
+        Company company = companyMongoRepository.save(new Company(new ObjectId().toString(), "Spring", employees));
+
+        //when & then
+        client.perform(MockMvcRequestBuilders.delete("/companies/{id}", "    "))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void should_return_404_when_perform_put_by_id_given_a_id_invalid() throws Exception {
+        //given
+        List<Employee> employees1 = new ArrayList<>();
+        employees1.add(new Employee(String.valueOf(1), "lili", 20, "Female", 2000));
+        employees1.add(new Employee(String.valueOf(2), "coco", 10, "Female", 8000));
+
+        List<Employee> employees2 = new ArrayList<>();
+        employees2.add(new Employee(String.valueOf(3), "aaa", 20, "Male", 2000));
+        employees2.add(new Employee(String.valueOf(4), "bbb", 10, "Male", 8000));
+        Company company1 = companyMongoRepository.save(new Company(new ObjectId().toString(), "Spring", employees1));
+        Company company2 = companyMongoRepository.save(new Company(new ObjectId().toString(), "Boot", employees2));
+
+        String newCompanyJson = new ObjectMapper().writeValueAsString(new Company(new ObjectId().toString(), "TETE", null));
+
+        //when & then
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}", "       ")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompanyJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
 }
