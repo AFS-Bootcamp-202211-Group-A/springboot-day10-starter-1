@@ -48,8 +48,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(22))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("Female"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(10000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("Female"));
     }
 
     @Test
@@ -64,8 +63,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(10000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"));
     }
 
     @Test
@@ -82,8 +80,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].name", containsInAnyOrder("Leo", "Robert")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].age", containsInAnyOrder( 20, 25)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", containsInAnyOrder( "Male", "Male")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", containsInAnyOrder( 9000, 8000)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", containsInAnyOrder( "Male", "Male")));
     }
 
     @Test
@@ -120,7 +117,6 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"));
 
         // then
@@ -146,7 +142,6 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Jim"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"));
 
         // then
@@ -195,6 +190,36 @@ public class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void should_throw_id_invalid_exception_when_get_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid_Id = "999";
+        //when
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", invalid_Id))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        //then
+    }
+
+    @Test
+    void should_throw_id_invalid_exception_when_put_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid_Id = "999";
+        //when
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", invalid_Id))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        //then
+    }
+
+    @Test
+    void should_throw_id_invalid_exception_when_delete_by_id_given_invalid_id() throws Exception {
+        //given
+        String invalid_Id = "999";
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}", invalid_Id))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        //then
     }
 
 }
