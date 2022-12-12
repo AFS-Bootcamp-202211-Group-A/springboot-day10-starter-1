@@ -3,8 +3,10 @@ package com.rest.springbootemployee.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.stereotype.Component;
 
 @Document
+@Component
 public class Employee {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
@@ -20,6 +22,8 @@ public class Employee {
         this.gender = gender;
         this.salary = salary;
     }
+
+    public Employee() {}
 
     public String getName() {
         return name;

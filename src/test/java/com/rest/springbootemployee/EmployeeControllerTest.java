@@ -64,8 +64,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(10000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"));
     }
 
     @Test
@@ -120,7 +119,6 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Susan"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Female"));
 
         // then
@@ -146,7 +144,6 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Jim"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"));
 
         // then
@@ -196,5 +193,39 @@ public class EmployeeControllerTest {
                         .content(updateEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+    @Test
+    void should_return_400_when_get_given_invalid_id() throws Exception{
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee susan = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
 
+        //when & then
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", 123))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+    @Test
+    void should_return_400_when_put_given_invalid_id() throws Exception{
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee employee = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
+        Employee updateEmployee = new Employee(employeeId, "Jim", 20, "Male", 55000);
+
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+
+        //when & then
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", 123)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+    @Test
+    void should_return_400_when_delete_given_invalid_id() throws Exception{
+        //given
+        String employeeId = new ObjectId().toString();
+        Employee createdEmployee = employeeMongoRepository.save(new Employee(employeeId, "Jim", 20, "Male", 55000));
+
+        //when & then
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}" , 123))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
