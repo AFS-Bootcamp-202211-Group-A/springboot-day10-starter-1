@@ -146,7 +146,6 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Jim"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(20))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(55000))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"));
 
         // then
@@ -195,6 +194,48 @@ public class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateEmployeeJson))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void should_return_exception_by_id_when_perform_get_by_id_notValid_given_employees() throws Exception {
+        //given
+        String notValidId = "01";
+        //when & then
+        //        return id;
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", notValidId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+    }
+
+    @Test
+    void should_return_exception_when_perform_put_given_employeeId_notValid() throws Exception {
+        //given
+        String notValidId = "01";
+        String employeeId = new ObjectId().toString();
+        Employee employee = employeeMongoRepository.save(new Employee(employeeId, "Susan", 22, "Female", 10000));
+        Employee updateEmployee = new Employee(employeeId, "Jim", 20, "Male", 55000);
+
+        String updateEmployeeJson = new ObjectMapper().writeValueAsString(updateEmployee);
+        //when
+        //        return id;
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", notValidId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+
+    }
+
+    @Test
+    void should_return_exception_when_perform_delete_given_employeeId_notValid() throws Exception {
+        //given
+        String notValidId = "01";
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}" , notValidId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The ID is invalid."));
+
+        //then
     }
 
 }
